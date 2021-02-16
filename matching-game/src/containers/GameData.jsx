@@ -30,19 +30,19 @@ export default function GameData() {
 	const [box, setBox] = useState(mark)
 
 	useEffect(() => {
+		function fetchImages() {
+			axios
+				.all([
+					axios.get(`https://picsum.photos/v2/list?page=${page}&limit=8`),
+					axios.get(`https://picsum.photos/v2/list?page=${page}&limit=8`)
+				])
+				.then(([images1, images2]) => {
+					setImages(shuffle(images1.data.concat(images2.data)))
+				})
+		}
 		fetchImages()
 	}, [page])
 
-	const fetchImages = () => {
-		axios
-			.all([
-				axios.get(`https://picsum.photos/v2/list?page=${page}&limit=8`),
-				axios.get(`https://picsum.photos/v2/list?page=${page}&limit=8`)
-			])
-			.then(([images1, images2]) => {
-				setImages(shuffle(images1.data.concat(images2.data)))
-			})
-	}
 	useEffect(() => {
 		if (match.length === 2) {
 			if (match[0] === match[1]) {
